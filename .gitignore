@@ -98,6 +98,13 @@ ENV/
 # mypy
 .mypy_cache/
 
-corpora
-logdir
-preprocessed
+corpora/*
+logdir/*
+preprocessed/*
+
+# notebooks
+*.ipynb
+
+# ssh keys
+.ssh
+.ssh/*
