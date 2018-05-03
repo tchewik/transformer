@@ -154,10 +154,14 @@ class Graph():
                 tf.summary.scalar('mean_loss', self.mean_loss)
                 self.merged = tf.summary.merge_all()
 
-if __name__ == '__main__':                
+if __name__ == '__main__':      
+    
+    # vmh2 second gpu
+    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+    
     # Load vocabulary    
-    de2idx, idx2de = load_de_vocab()
-    en2idx, idx2en = load_en_vocab()
+    de2idx, idx2de = load_de_vocab(); print('vocab #1 is loaded; len=%s' % len(idx2de))
+    en2idx, idx2en = load_en_vocab(); print('vocab #2 is loaded; len=%s' % len(idx2en))
     
     # Construct graph
     g = Graph("train"); print("Graph loaded")

@@ -1,4 +1,11 @@
 nltk>=3.2.4
+<<<<<<< HEAD
+tqdm>=3
+numpy>=1.13.0
+regex>=2017.6.7
+tensorflow-gpu>=1.2.0
+=======
 numpy>=1.13.0
 regex>=2017.6.7
 tensorflow>=1.2.0
+>>>>>>> 6672f93c57ee97412a92989ed075d65244400227

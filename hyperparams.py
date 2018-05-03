@@ -8,11 +8,11 @@ https://www.github.com/kyubyong/transformer
 class Hyperparams:
     '''Hyperparameters'''
     # data
-    source_train = 'corpora/train.tags.de-en.de'
-    target_train = 'corpora/train.tags.de-en.en'
-    source_test = 'corpora/IWSLT16.TED.tst2014.de-en.de.xml'
-    target_test = 'corpora/IWSLT16.TED.tst2014.de-en.en.xml'
-    
+    source_train = 'corpora/train_from.txt'
+    target_train = 'corpora/train_to.txt'
+    source_test = 'corpora/valid_from.txt'
+    target_test = 'corpora/valid_to.txt'
+
     # training
     batch_size = 32 # alias = N
     lr = 0.0001 # learning rate. In paper, learning rate is adjusted to the global step.
@@ -28,7 +28,3 @@ class Hyperparams:
     num_heads = 8
     dropout_rate = 0.1
     sinusoid = False # If True, use sinusoid. If false, positional embedding.
-    
-    
-    
-    
