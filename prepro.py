@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # -*- coding: utf-8 -*-
 #/usr/bin/python2
 '''
@@ -32,9 +31,7 @@ def make_vocab(fpath, fname):
     with codecs.open('preprocessed/{}'.format(fname), 'w', 'utf-8') as fout:
         fout.write("{}\t1000000000\n{}\t1000000000\n{}\t1000000000\n{}\t1000000000\n".format("<PAD>", "<UNK>", "<S>", "</S>"))
         for word, cnt in word2cnt.most_common(len(word2cnt)):
-            # ommit infrequent (ungrammatical, urls, etc) words
-            if cnt >= 2:
-                fout.write(u"{}\t{}\n".format(word, cnt))
+            fout.write(u"{}\t{}\n".format(word, cnt))
 
 if __name__ == '__main__':
     make_vocab(hp.source_train, "de.vocab.tsv")

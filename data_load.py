@@ -49,8 +49,8 @@ def create_data(source_sents, target_sents):
     return X, Y, Sources, Targets
 
 def load_train_data():
-    de_sents = [regex.sub("[^\s\p{Latin}']", "", line) for line in codecs.open(hp.source_train, 'r', 'utf-8').read().split("\n") if line and line[0] != "<"]
-    en_sents = [regex.sub("[^\s\p{Latin}']", "", line) for line in codecs.open(hp.target_train, 'r', 'utf-8').read().split("\n") if line and line[0] != "<"]
+    de_sents = [regex.sub("[^\s\pA-Za-zА-Яа-я']", "", line) for line in codecs.open(hp.source_train, 'r', 'utf-8').read().split("\n") if line and line[0] != "<"]
+    en_sents = [regex.sub("[^\s\pA-Za-zА-Яа-я']", "", line) for line in codecs.open(hp.target_train, 'r', 'utf-8').read().split("\n") if line and line[0] != "<"]
     
     X, Y, Sources, Targets = create_data(de_sents, en_sents)
     return X, Y
@@ -58,11 +58,11 @@ def load_train_data():
 def load_test_data():
     def _refine(line):
         line = regex.sub("<[^>]+>", "", line)
-        line = regex.sub("[^\s\p{Latin}']", "", line) 
+        line = regex.sub("[^\s\pA-Za-zА-Яа-я']", "", line)  # cyrillic support
         return line.strip()
     
-    de_sents = [_refine(line) for line in codecs.open(hp.source_test, 'r', 'utf-8').read().split("\n") if line and line[:4] == "<seg"]
-    en_sents = [_refine(line) for line in codecs.open(hp.target_test, 'r', 'utf-8').read().split("\n") if line and line[:4] == "<seg"]
+    de_sents = [_refine(line) for line in codecs.open(hp.source_test, 'r', 'utf-8').read().split("\n") if line]
+    en_sents = [_refine(line) for line in codecs.open(hp.target_test, 'r', 'utf-8').read().split("\n") if line]
         
     X, Y, Sources, Targets = create_data(de_sents, en_sents)
     return X, Sources, Targets # (1064, 150)
@@ -71,12 +71,19 @@ def get_batch_data():
     # Load data
     X, Y = load_train_data()
     
+    #print('speaks get_batch_data():')  
+    print('X is loaded; len =', len(X))
+    print('Y is loaded; len =', len(Y))
+    
     # calc total batch count
     num_batch = len(X) // hp.batch_size
     
     # Convert to tensor
     X = tf.convert_to_tensor(X, tf.int32)
     Y = tf.convert_to_tensor(Y, tf.int32)
+    
+    print('X is converted to tensor; shape =', tf.shape(X))
+    print('Y is converted to tensor; shape =', tf.shape(Y))
     
     # Create Queues
     input_queues = tf.train.slice_input_producer([X, Y])

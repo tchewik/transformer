@@ -25,10 +25,13 @@ def eval():
     
     # Load data
     X, Sources, Targets = load_test_data()
+    
+    print('test data loaded!')
+    print('Sources: ', len(Sources), Sources[:2])
+    print('Targets: ', len(Targets), Targets[:2])
+    
     de2idx, idx2de = load_de_vocab()
     en2idx, idx2en = load_en_vocab()
-     
-#     X, Sources, Targets = X[:33], Sources[:33], Targets[:33]
      
     # Start session         
     with g.graph.as_default():    
@@ -40,6 +43,7 @@ def eval():
               
             ## Get model name
             mname = open(hp.logdir + '/checkpoint', 'r').read().split('"')[1] # model name
+            print("Current model name:", mname)
              
             ## Inference
             if not os.path.exists('results'): os.mkdir('results')
@@ -73,11 +77,16 @@ def eval():
                             list_of_refs.append([ref])
                             hypotheses.append(hypothesis)
               
-                ## Calculate bleu score
+                #Calculate bleu score
                 score = corpus_bleu(list_of_refs, hypotheses)
+                #score = .666
                 fout.write("Bleu Score = " + str(100*score))
                                           
 if __name__ == '__main__':
+    
+    # vmh2 second gpu
+    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+    
     eval()
     print("Done")
     
